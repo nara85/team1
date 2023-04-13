@@ -1,17 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: html-ingress
   namespace: devops-intermidate
+  name: nara
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-0b4495f991c06f583, subnet-07d299631a00019d9
 spec:
+  ingressClassName: alb
   rules:
-    - host: example.com
-      http:
+    - http:
         paths:
         - path: /
           pathType: Prefix
           backend:
             service:
-              name: html-svc
+              name: nginx-service
               port:
-               name: http
+                number: 80
